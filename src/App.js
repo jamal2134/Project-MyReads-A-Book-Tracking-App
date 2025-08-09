@@ -15,6 +15,9 @@ function App() {
   const setchangeStatus = (event) => {
     const { name, value } = event.target
 
+    BooksAPI.update(books.filter((b)=> b.id === name)[0],value)
+    
+
     setBooks(prevBooks =>
       prevBooks.map(b =>
         b.id === name ? { ...b, status: value } : b

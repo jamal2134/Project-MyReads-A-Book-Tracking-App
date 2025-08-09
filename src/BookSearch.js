@@ -4,7 +4,7 @@ import Book from "./Book";
 import { Link } from "react-router-dom";
 
 
-const BookSearch = ({  addbook }) => {
+const BookSearch = ({ addbook }) => {
 
     const [searchText, setSearchText] = useState("")
     const [showBooks, setShowBooks] = useState([])
@@ -38,10 +38,12 @@ const BookSearch = ({  addbook }) => {
         const { name, value } = event.target
 
         // const item = showBooks.filter((book) => book.id === name).map((book) => ({ ...book, status: value }))
-
+        BooksAPI.update(showBooks.filter((b) => b.id === name)[0], value)
 
 
         addbook(showBooks.filter((book) => book.id === name).map((book) => ({ ...book, status: value })))
+
+        setShowBooks(showBooks.filter((book) => book.id !== name))
 
 
 
