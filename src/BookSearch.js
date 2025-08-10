@@ -4,7 +4,7 @@ import Book from "./Book";
 import { Link } from "react-router-dom";
 
 
-const BookSearch = ({ addbook }) => {
+const BookSearch = ({ addbook, books }) => {
 
     const [searchText, setSearchText] = useState("")
     const [showBooks, setShowBooks] = useState([])
@@ -15,14 +15,14 @@ const BookSearch = ({ addbook }) => {
         const getBooks = async () => {
             if (event.target.value !== "") {
                 const res = await BooksAPI.search(event.target.value, 10);
-                //console.log(res)
+                console.log(res)
                 //.filter((r) => Array.isArray(r.authors) && r.authors.length > 0)
 
                 if (!Array.isArray(res)) {
                     setShowBooks([]);
 
                 } else {
-                    const items = await res.map((r) => ({ "id": r.id, "title": r.title, "author": Array.isArray(r.authors) ? r.authors.length > 1 ? r.authors.join(", ") : r.authors[0] : "", "status": "none", "image": r.imageLinks?.smallThumbnail || "" }))
+                    const items = await res.filter((r) => !books.some((b) => b.id === r.id)).map((r) => ({ "id": r.id, "title": r.title, "author": Array.isArray(r.authors) ? r.authors.length > 1 ? r.authors.join(", ") : r.authors[0] : "", "status": "none", "image": r.imageLinks?.smallThumbnail || "" }))
                     setShowBooks(items);
                 }
 

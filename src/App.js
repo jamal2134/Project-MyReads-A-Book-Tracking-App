@@ -24,6 +24,17 @@ function App() {
       )
     );
 
+    const getBooks = async () => {
+      const res = await BooksAPI.getAll();
+
+      console.log(res)
+
+
+    };
+
+    getBooks();
+
+
 
 
   }
@@ -38,7 +49,7 @@ function App() {
     const getBooks = async () => {
       const res = await BooksAPI.getAll();
 
-      const items = res.map((r) => ({ "id": r.id, "title": r.title, "author": r.authors[0], "status": "currentlyReading", "image": r.imageLinks.smallThumbnail }))
+      const items = res.map((r) => ({ "id": r.id, "title": r.title, "author": r.authors[0], "status": r.shelf || "currentlyReading", "image": r.imageLinks.smallThumbnail }))
       setBooks(items);
 
 
@@ -55,7 +66,7 @@ function App() {
     <Routes>
       <Route exact path="/search" element={
         <div className="app">
-          <BookSearch  addbook={addbook} />
+          <BookSearch  addbook={addbook} books={books}/>
         </div>
       } />
       <Route exact path="/" element={
